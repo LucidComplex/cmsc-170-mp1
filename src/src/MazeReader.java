@@ -41,7 +41,7 @@ public class MazeReader {
         }
         
         // convert list to array
-        char[][] maze = new char[lines.get(0).length()][lines.size()];
+        char[][] maze = new char[lines.size()][lines.get(0).length()];
         for (int i = 0; i < maze.length; i++) {
             maze[i] = lines.get(i).toCharArray();
         }
