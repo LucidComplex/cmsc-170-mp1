@@ -26,7 +26,7 @@ public class MazeReader {
     }
     
     public char[][] read(String mazeName) throws UnsupportedEncodingException {
-        InputStream is = getClass().getResourceAsStream("/mazes/" + mazeName);
+        InputStream is = getClass().getResourceAsStream("/mazes/" + mazeName + ".lay.txt");
         BufferedReader br = new BufferedReader(new InputStreamReader(is, "utf-8"));
         
         // load maze into list
@@ -45,7 +45,7 @@ public class MazeReader {
         for (int i = 0; i < maze.length; i++) {
             maze[i] = lines.get(i).toCharArray();
         }
-        System.out.println(Arrays.deepToString(maze));
-        return null;
+
+        return maze;
     }
 }
