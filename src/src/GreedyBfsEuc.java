@@ -16,45 +16,47 @@ import java.util.Stack;
  *
  * @author MiriamMarie
  */
+public class GreedyBfsEuc extends Algorithm {
 
-public class GreedyBfsEuc extends Algorithm{
-    
-    public GreedyBfsEuc(char[][] maze, String mazeName){
+    public GreedyBfsEuc(char[][] maze, String mazeName) {
         this.init(maze, mazeName);
         maxFrontierSize = 0;
         maxDepth = 0;
         iter = 0;
     }
+
     @Override
     public void solve() {
         List<Node> closed = new LinkedList<>();
         Stack<Node> solution = new Stack<>();
         Node current = null;
         GreedyBfsEuc that = this;
-        AbstractQueue<Node> frontier = new PriorityQueue<>(new Comparator<Node>() {
+        
+        //Used to choose the node with the best/lowest cost
+        AbstractQueue<Node> frontier
+                = new PriorityQueue<>(new Comparator<Node>() {
+                    @Override
+                    public int compare(Node o1, Node o2) {
+                        double cost1 = that.heuristic(o1);
+                        double cost2 = that.heuristic(o2);
 
-            @Override
-            public int compare(Node o1, Node o2) {
-                double cost1 = that.getCost(o1);
-                double cost2 = that.getCost(o2);
-                
-                if (cost1 > cost2) {
-                    return 1;
-                } else if (cost1 < cost2) {
-                    return -1;
-                } else {
-                    return 0;
-                }
-            }
-            
-        });
+                        if (cost1 > cost2) {
+                            return 1;
+                        } else if (cost1 < cost2) {
+                            return -1;
+                        } else {
+                            return 0;
+                        }
+                    }
+                });
+
         frontier.add(startNode);
         do {
             // grab best node from frontier
             current = frontier.remove();
             closed.add(current);
-            
-            // check if current node is goal node
+
+            // check if current node is goal node: Builds up stack used for tracing
             if (current.equals(endNode)) {
                 while (true) {
                     solution.add(current);
@@ -67,6 +69,7 @@ public class GreedyBfsEuc extends Algorithm{
                 printMaze(endNode, frontier);
                 break;
             }
+            
             // populate frontier with walkable nodes
             populateChildren(current);
             for (Node child : current.children) {
@@ -79,12 +82,15 @@ public class GreedyBfsEuc extends Algorithm{
                     }
                 }
             }
+            
+            //Set frontier size
             if (frontier.size() > maxFrontierSize) {
                 maxFrontierSize = frontier.size();
             }
-            printMaze(current, frontier);
             
-            // check depth
+            printMaze(current, frontier);
+
+            // Search max depth
             int depth;
             Node temp = current;
             depth = 0;
@@ -96,6 +102,7 @@ public class GreedyBfsEuc extends Algorithm{
                 maxDepth = depth;
             }
         } while (!frontier.isEmpty());
+        
         StringBuilder pathFound = new StringBuilder("Path Found: ");
         int pathCost = solution.size() - 1;
         while (!solution.isEmpty()) {
@@ -111,8 +118,13 @@ public class GreedyBfsEuc extends Algorithm{
 
     @Override
     public double heuristic(Node node) {
-        double xSquaredDiff = Math.pow((node.x)-(endNode.x),2);
-        double ySquaredDiff = Math.pow((node.y)-(endNode.y),2);
+        double xSquaredDiff = Math.pow((node.x) - (endNode.x), 2);
+        double ySquaredDiff = Math.pow((node.y) - (endNode.y), 2);
         return Math.sqrt(xSquaredDiff + ySquaredDiff);
+    }
+    
+    @Override
+    protected double getCost(Node node){
+        return heuristic(node);
     }
 }
