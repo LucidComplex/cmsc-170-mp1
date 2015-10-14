@@ -5,42 +5,56 @@
  */
 package src;
 
+import java.util.AbstractQueue;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
+import java.util.PriorityQueue;
 import java.util.Stack;
 
 /**
  *
  * @author MiriamMarie
  */
-public class BFS extends Algorithm {
 
-    public BFS(char[][] maze, String mazeName) {
+public class GreedyBfsEuc extends Algorithm{
+    
+    public GreedyBfsEuc(char[][] maze, String mazeName){
         this.init(maze, mazeName);
-        iter = 0;
-        maxDepth = 0;
         maxFrontierSize = 0;
+        maxDepth = 0;
+        iter = 0;
     }
-
-    @Override
-    public double heuristic(Node node) {
-        return 0;
-    }
-
     @Override
     public void solve() {
-        Queue<Node> frontier = new LinkedList<>();
         List<Node> closed = new LinkedList<>();
         Stack<Node> solution = new Stack<>();
-        frontier.add(startNode);
         Node current = null;
+        GreedyBfsEuc that = this;
+        AbstractQueue<Node> frontier = new PriorityQueue<>(new Comparator<Node>() {
+
+            @Override
+            public int compare(Node o1, Node o2) {
+                double cost1 = that.getCost(o1);
+                double cost2 = that.getCost(o2);
+                
+                if (cost1 > cost2) {
+                    return 1;
+                } else if (cost1 < cost2) {
+                    return -1;
+                } else {
+                    return 0;
+                }
+            }
+            
+        });
+        frontier.add(startNode);
         do {
-            // get current node from queue
+            // grab best node from frontier
             current = frontier.remove();
             closed.add(current);
-
-            // check if current node is goal
+            
+            // check if current node is goal node
             if (current.equals(endNode)) {
                 while (true) {
                     solution.add(current);
@@ -53,8 +67,7 @@ public class BFS extends Algorithm {
                 printMaze(endNode, frontier);
                 break;
             }
-
-            // add walkable neighbors to frontier
+            // populate frontier with walkable nodes
             populateChildren(current);
             for (Node child : current.children) {
                 if (!frontier.contains(child) && !closed.contains(child)) {
@@ -69,9 +82,8 @@ public class BFS extends Algorithm {
             if (frontier.size() > maxFrontierSize) {
                 maxFrontierSize = frontier.size();
             }
-
             printMaze(current, frontier);
-
+            
             // check depth
             int depth;
             Node temp = current;
@@ -95,7 +107,12 @@ public class BFS extends Algorithm {
         System.out.println("Nodes Expanded: " + closed.size());
         System.out.println("Max Depth: " + maxDepth);
         System.out.println("Max Frontier Size: " + maxFrontierSize);
-
     }
 
+    @Override
+    public double heuristic(Node node) {
+        double xSquaredDiff = Math.pow((node.x)-(endNode.x),2);
+        double ySquaredDiff = Math.pow((node.y)-(endNode.y),2);
+        return Math.sqrt(xSquaredDiff + ySquaredDiff);
+    }
 }
