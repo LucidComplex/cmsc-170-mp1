@@ -113,7 +113,6 @@ public class GreedyBfsEuc extends Algorithm{
     public double heuristic(Node node) {
         double xSquaredDiff = Math.pow((node.x)-(endNode.x),2);
         double ySquaredDiff = Math.pow((node.y)-(endNode.y),2);
-        System.out.println(ySquaredDiff);
         return Math.sqrt(xSquaredDiff + ySquaredDiff);
     }
 }
