@@ -16,9 +16,11 @@ public abstract class Algorithm {
     protected Node startNode;
 	protected Node endNode;
     protected char[][] maze;
+    protected String mazeName;
     
-    public void init(char[][] maze){
+    public void init(char[][] maze, String mazeName){
         // look for start point
+        this.mazeName = mazeName;
 		startNode = null;
 		endNode = null;
         this.maze = maze;
@@ -37,6 +39,7 @@ public abstract class Algorithm {
     }
     
     public abstract void solve();
+    public abstract int heuristic(Node node);
     protected void populateChildren(Node node) {
         List<Node> children = new LinkedList<>();
         
@@ -57,4 +60,13 @@ public abstract class Algorithm {
         node.children = children;
     }
     
+    protected int getCost(Node n) {
+        int cost = -1;
+        while(n != null) {
+            cost++;
+            n = n.parent;
+        }
+        cost += heuristic(n);
+        return cost;
+    }
 }

@@ -26,11 +26,12 @@ public class Node {
     
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder("Node (" + String.valueOf(x)
-                + ", " + String.valueOf(y) + ")");
-        return sb.toString();
+        String sb = "Node (" + String.valueOf(x)
+                + ", " + String.valueOf(y) + ")";
+        return sb;
     }
     
+    @Override
     public boolean equals(Object o) {
         return o.hashCode() == this.hashCode();
     }

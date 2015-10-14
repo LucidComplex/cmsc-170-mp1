@@ -5,6 +5,8 @@
  */
 package src;
 
+import java.util.Arrays;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -16,6 +18,15 @@ import java.util.Stack;
  */
 public class BFS extends Algorithm {
     
+    public BFS(char[][] maze, String mazeName) {
+        this.init(maze, mazeName);
+    }
+    
+    @Override
+    public int heuristic(Node node) {
+        return 0;
+    }
+    
     @Override
     public void solve() {
         Queue<Node> frontier = new LinkedList<>();
@@ -25,10 +36,35 @@ public class BFS extends Algorithm {
         int maxDepth = 0;
         int maxFrontierSize = 0;
         frontier.add(startNode);
-        Node current;
+        Node current = null;
+        int iter = 0;
         do {
+            if (mazeName.matches("tinyMaze")) {
+                System.out.println("Iteration #" + ++iter);
+                System.out.println("Current Node: " + (current != null ? current : "None"));
+                StringBuilder sb = new StringBuilder("Frontier: ");
+                for (Node n : frontier) {
+                    sb.append(n).append(" F Value: ").append(getCost(n)).append("; ");
+                }
+                sb.delete(sb.length() - 2, sb.length());
+                System.out.println(sb);
+                String lines = Arrays.deepToString(maze);
+                
+                for (int i = 0; i<maze.length;i++){
+                    for(int j = 0; j<maze[i].length;j++){
+                        System.out.print(maze[i][j]);
+                    }
+                    System.out.println("");
+                }
+            }
             int depth;
+            if (current != null) {
+                maze[current.x][current.y] = ' ';
+            }
             current = frontier.remove();
+            if (mazeName.matches("tinyMaze")) {
+                maze[current.x][current.y] = 'C';
+            }
             closed.add(current);
             expandCount++;
             if (current.c == 'P') {
@@ -57,6 +93,7 @@ public class BFS extends Algorithm {
             for (Node child : current.children) {
                 if (!frontier.contains(child) && !closed.contains(child)) {
                     frontier.add(child);
+                    maze[child.x][child.y] = 'F';
                 }
             }
             if (frontier.size() > maxFrontierSize) {
@@ -64,7 +101,7 @@ public class BFS extends Algorithm {
             }
         } while (!frontier.isEmpty());
         StringBuilder pathFound = new StringBuilder("Path Found: ");
-        int pathCost = solution.size();
+        int pathCost = solution.size() - 1;
         while (!solution.isEmpty()) {
             pathFound.append(solution.pop()).append(" -> ");
         }
