@@ -17,9 +17,11 @@ import java.util.Stack;
  * @author MiriamMarie
  */
 public class BFS extends Algorithm {
+	private int iter;
     
     public BFS(char[][] maze, String mazeName) {
         this.init(maze, mazeName);
+		iter = 0;
     }
     
     @Override
@@ -32,42 +34,17 @@ public class BFS extends Algorithm {
         Queue<Node> frontier = new LinkedList<>();
         List<Node> closed = new LinkedList<>();
         Stack<Node> solution = new Stack<>();
-        int expandCount = 0;
         int maxDepth = 0;
         int maxFrontierSize = 0;
         frontier.add(startNode);
         Node current = null;
-        int iter = 0;
         do {
-            if (mazeName.matches("tinyMaze")) {
-                System.out.println("Iteration #" + ++iter);
-                System.out.println("Current Node: " + (current != null ? current : "None"));
-                StringBuilder sb = new StringBuilder("Frontier: ");
-                for (Node n : frontier) {
-                    sb.append(n).append(" F Value: ").append(getCost(n)).append("; ");
-                }
-                sb.delete(sb.length() - 2, sb.length());
-                System.out.println(sb);
-                String lines = Arrays.deepToString(maze);
-                
-                for (int i = 0; i<maze.length;i++){
-                    for(int j = 0; j<maze[i].length;j++){
-                        System.out.print(maze[i][j]);
-                    }
-                    System.out.println("");
-                }
-            }
-            int depth;
-            if (current != null) {
-                maze[current.x][current.y] = ' ';
-            }
+			// get current node from queue
             current = frontier.remove();
-            if (mazeName.matches("tinyMaze")) {
-                maze[current.x][current.y] = 'C';
-            }
             closed.add(current);
-            expandCount++;
-            if (current.c == 'P') {
+
+			// check if current node is goal
+            if (current.equals(endNode)) {
                 while (true) {
                     solution.add(current);
                     if (current.parent != null) {
@@ -76,19 +53,11 @@ public class BFS extends Algorithm {
                         break;
                     }
                 }
+				printMaze(endNode, frontier);
                 break;
             }
-            
-            // check depth
-            Node temp = current;
-            depth = 0;
-            while (temp != null) {
-                depth++;
-                temp = temp.parent;
-            }
-            if (depth > maxDepth) {
-                maxDepth = depth;
-            }
+
+			// add walkable neighbors to frontier
             populateChildren(current);
             for (Node child : current.children) {
                 if (!frontier.contains(child) && !closed.contains(child)) {
@@ -99,6 +68,20 @@ public class BFS extends Algorithm {
             if (frontier.size() > maxFrontierSize) {
                 maxFrontierSize = frontier.size();
             }
+
+			printMaze(current, frontier);
+            
+            // check depth
+            int depth;
+            Node temp = current;
+            depth = 0;
+            while (temp != null) {
+                depth++;
+                temp = temp.parent;
+            }
+            if (depth > maxDepth) {
+                maxDepth = depth;
+            }
         } while (!frontier.isEmpty());
         StringBuilder pathFound = new StringBuilder("Path Found: ");
         int pathCost = solution.size() - 1;
@@ -108,9 +91,32 @@ public class BFS extends Algorithm {
         pathFound.delete(pathFound.length() - 4, pathFound.length());
         System.out.println(pathFound);
         System.out.println("Path Cost: " + pathCost);
-        System.out.println("Nodes Expanded: " + expandCount);
+        System.out.println("Nodes Expanded: " + closed.size());
         System.out.println("Max Depth: " + maxDepth);
         System.out.println("Max Frontier Size: " + maxFrontierSize);
         
     }
+
+	private void printMaze(Node current, Queue<Node> frontier) {
+		// print maze on tinyMaze
+		if (mazeName.matches("tinyMaze")) {
+			// set current node to C in map
+			maze[current.x][current.y] = 'C';
+			System.out.println("Iteration #" + ++iter);
+			System.out.println("Current Node: " + current);
+			System.out.println("Frontier:");
+			for (Node n : frontier) {
+				System.out.println("  " + n + " F Value: " + getCost(n));
+			}
+			String lines = Arrays.deepToString(maze);
+			for (int i = 0; i<maze.length;i++){
+				for(int j = 0; j<maze[i].length;j++){
+					System.out.print(maze[i][j]);
+				}
+				System.out.println("");
+			}
+			// reset how current node looks like after printing
+			maze[current.x][current.y] = ' ';
+		}
+	}
 }
