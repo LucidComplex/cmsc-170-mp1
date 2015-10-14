@@ -17,7 +17,7 @@ import java.util.Stack;
  * @author MiriamMarie
  */
 public class BFS extends Algorithm {
-	private int iter;
+    private int iter;
     
     public BFS(char[][] maze, String mazeName) {
         this.init(maze, mazeName);
@@ -39,11 +39,11 @@ public class BFS extends Algorithm {
         frontier.add(startNode);
         Node current = null;
         do {
-			// get current node from queue
+            // get current node from queue
             current = frontier.remove();
             closed.add(current);
 
-			// check if current node is goal
+            // check if current node is goal
             if (current.equals(endNode)) {
                 while (true) {
                     solution.add(current);
@@ -53,7 +53,7 @@ public class BFS extends Algorithm {
                         break;
                     }
                 }
-				printMaze(endNode, frontier);
+		printMaze(endNode, frontier);
                 break;
             }
 
@@ -69,7 +69,7 @@ public class BFS extends Algorithm {
                 maxFrontierSize = frontier.size();
             }
 
-			printMaze(current, frontier);
+            printMaze(current, frontier);
             
             // check depth
             int depth;
@@ -98,25 +98,25 @@ public class BFS extends Algorithm {
     }
 
 	private void printMaze(Node current, Queue<Node> frontier) {
-		// print maze on tinyMaze
-		if (mazeName.matches("tinyMaze")) {
-			// set current node to C in map
-			maze[current.x][current.y] = 'C';
-			System.out.println("Iteration #" + ++iter);
-			System.out.println("Current Node: " + current);
-			System.out.println("Frontier:");
-			for (Node n : frontier) {
-				System.out.println("  " + n + " F Value: " + getCost(n));
-			}
-			String lines = Arrays.deepToString(maze);
-			for (int i = 0; i<maze.length;i++){
-				for(int j = 0; j<maze[i].length;j++){
-					System.out.print(maze[i][j]);
-				}
-				System.out.println("");
-			}
-			// reset how current node looks like after printing
-			maze[current.x][current.y] = ' ';
-		}
+            // print maze on tinyMaze
+            if (mazeName.matches("tinyMaze")) {
+                // set current node to C in map
+                maze[current.x][current.y] = 'C';
+                System.out.println("Iteration #" + ++iter);
+                System.out.println("Current Node: " + current);
+                System.out.println("Frontier:");
+                for (Node n : frontier) {
+                        System.out.println("  " + n + " F Value: " + getCost(n));
+                }
+                String lines = Arrays.deepToString(maze);
+                for (int i = 0; i<maze.length;i++){
+                        for(int j = 0; j<maze[i].length;j++){
+                            System.out.print(maze[i][j]);
+                        }
+                    System.out.println("");
+                }
+                // reset how current node looks like after printing
+                maze[current.x][current.y] = ' ';
+            }
 	}
 }

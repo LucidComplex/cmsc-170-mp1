@@ -14,7 +14,7 @@ import java.util.List;
  */
 public abstract class Algorithm {
     protected Node startNode;
-	protected Node endNode;
+    protected Node endNode;
     protected char[][] maze;
     protected String mazeName;
     
@@ -29,8 +29,8 @@ public abstract class Algorithm {
                 if (maze[x][y] == '.') {
                     startNode = new Node(x, y, '.');
                 } else if (maze[x][y] == 'P') {
-					endNode = new Node(x, y, 'P');
-				}
+                    endNode = new Node(x, y, 'P');
+		}
             }
             if (startNode != null && endNode != null) {
                 break;
