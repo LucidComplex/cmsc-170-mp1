@@ -22,7 +22,9 @@ public class GreedyBfsMan extends Algorithm{
 
     @Override
     public double heuristic(Node node) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        double h = Math.abs(node.x - endNode.x) + Math.abs(node.y - endNode.y);
+        
+        return h;
     }
     
 }
