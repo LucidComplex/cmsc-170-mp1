@@ -14,21 +14,25 @@ import java.util.List;
  */
 public abstract class Algorithm {
     protected Node startNode;
+	protected Node endNode;
     protected char[][] maze;
     protected String mazeName;
     
     public void init(char[][] maze, String mazeName){
         // look for start point
         this.mazeName = mazeName;
+		startNode = null;
+		endNode = null;
         this.maze = maze;
         for (int x = 0; x < maze.length; x++) {
             for (int y = 0; y < maze[x].length; y++) {
                 if (maze[x][y] == '.') {
                     startNode = new Node(x, y, '.');
-                    break;
-                }
+                } else if (maze[x][y] == 'P') {
+					endNode = new Node(x, y, 'P');
+				}
             }
-            if (startNode != null) {
+            if (startNode != null && endNode != null) {
                 break;
             }
         }
