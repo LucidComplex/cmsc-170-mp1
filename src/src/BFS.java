@@ -5,6 +5,7 @@
  */
 package src;
 
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -47,9 +48,23 @@ public class BFS extends Algorithm {
                 }
                 sb.delete(sb.length() - 2, sb.length());
                 System.out.println(sb);
+                String lines = Arrays.deepToString(maze);
+                
+                for (int i = 0; i<maze.length;i++){
+                    for(int j = 0; j<maze[i].length;j++){
+                        System.out.print(maze[i][j]);
+                    }
+                    System.out.println("");
+                }
             }
             int depth;
+            if (current != null) {
+                maze[current.x][current.y] = ' ';
+            }
             current = frontier.remove();
+            if (mazeName.matches("tinyMaze")) {
+                maze[current.x][current.y] = 'C';
+            }
             closed.add(current);
             expandCount++;
             if (current.c == 'P') {
@@ -78,6 +93,7 @@ public class BFS extends Algorithm {
             for (Node child : current.children) {
                 if (!frontier.contains(child) && !closed.contains(child)) {
                     frontier.add(child);
+                    maze[child.x][child.y] = 'F';
                 }
             }
             if (frontier.size() > maxFrontierSize) {
