@@ -5,8 +5,6 @@
  */
 package src;
 
-import java.util.Arrays;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -18,11 +16,11 @@ import java.util.Stack;
  */
 public class BFS extends Algorithm {
 
-    private int iter;
-
     public BFS(char[][] maze, String mazeName) {
         this.init(maze, mazeName);
         iter = 0;
+        maxDepth = 0;
+        maxFrontierSize = 0;
     }
 
     @Override
@@ -35,8 +33,6 @@ public class BFS extends Algorithm {
         Queue<Node> frontier = new LinkedList<>();
         List<Node> closed = new LinkedList<>();
         Stack<Node> solution = new Stack<>();
-        int maxDepth = 0;
-        int maxFrontierSize = 0;
         frontier.add(startNode);
         Node current = null;
         do {
@@ -102,30 +98,4 @@ public class BFS extends Algorithm {
 
     }
 
-    private void printMaze(Node current, Queue<Node> frontier) {
-        // print maze on tinyMaze
-        if (mazeName.matches("tinyMaze")) {
-            // set current node to C in map
-            maze[current.x][current.y] = 'C';
-            System.out.println("Iteration #" + ++iter);
-            System.out.println("Current Node: " + current);
-            System.out.println("Frontier:");
-            for (Node n : frontier) {
-                System.out.println("  " + n + " F Value: " + getCost(n));
-            }
-            String lines = Arrays.deepToString(maze);
-            for (int i = 0; i < maze.length; i++) {
-                for (int j = 0; j < maze[i].length; j++) {
-                    System.out.print(maze[i][j]);
-                }
-                System.out.println("");
-            }
-            // reset how current node looks like after printing
-            if (current.equals(startNode)) {
-                maze[current.x][current.y] = '.';
-            } else {
-                maze[current.x][current.y] = ' ';
-            }
-        }
-    }
 }
