@@ -95,7 +95,7 @@ public class DFS extends Algorithm {
     }
 
     @Override
-    public int heuristic(Node node) {
+    public double heuristic(Node node) {
         return 0;
     }
 
