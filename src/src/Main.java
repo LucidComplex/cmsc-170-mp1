@@ -15,7 +15,7 @@ public class Main {
     public static void main(String[] args) throws UnsupportedEncodingException {
         MazeReader mr = new MazeReader();
         char[][] tinyMaze = mr.read("tinyMaze");
-        Algorithm bfs = new DFS(tinyMaze, "tinyMaze");
+        Algorithm bfs = new BFS(tinyMaze, "tinyMaze");
         bfs.solve();
     }
 }
