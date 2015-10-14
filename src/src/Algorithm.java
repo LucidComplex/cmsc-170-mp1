@@ -15,9 +15,11 @@ import java.util.List;
 public abstract class Algorithm {
     protected Node startNode;
     protected char[][] maze;
+    protected String mazeName;
     
-    public void init(char[][] maze){
+    public void init(char[][] maze, String mazeName){
         // look for start point
+        this.mazeName = mazeName;
         this.maze = maze;
         for (int x = 0; x < maze.length; x++) {
             for (int y = 0; y < maze[x].length; y++) {
@@ -33,6 +35,7 @@ public abstract class Algorithm {
     }
     
     public abstract void solve();
+    public abstract int heuristic(Node node);
     protected void populateChildren(Node node) {
         List<Node> children = new LinkedList<>();
         
@@ -53,4 +56,13 @@ public abstract class Algorithm {
         node.children = children;
     }
     
+    protected int getCost(Node n) {
+        int cost = -1;
+        while(n != null) {
+            cost++;
+            n = n.parent;
+        }
+        cost += heuristic(n);
+        return cost;
+    }
 }

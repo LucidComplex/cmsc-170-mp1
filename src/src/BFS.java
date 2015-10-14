@@ -5,6 +5,7 @@
  */
 package src;
 
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -16,6 +17,15 @@ import java.util.Stack;
  */
 public class BFS extends Algorithm {
     
+    public BFS(char[][] maze, String mazeName) {
+        this.init(maze, mazeName);
+    }
+    
+    @Override
+    public int heuristic(Node node) {
+        return 0;
+    }
+    
     @Override
     public void solve() {
         Queue<Node> frontier = new LinkedList<>();
@@ -25,8 +35,19 @@ public class BFS extends Algorithm {
         int maxDepth = 0;
         int maxFrontierSize = 0;
         frontier.add(startNode);
-        Node current;
+        Node current = null;
+        int iter = 0;
         do {
+            if (mazeName.matches("tinyMaze")) {
+                System.out.println("Iteration #" + ++iter);
+                System.out.println("Current Node: " + (current != null ? current : "None"));
+                StringBuilder sb = new StringBuilder("Frontier: ");
+                for (Node n : frontier) {
+                    sb.append(n).append(" Cost: ").append(getCost(n)).append("; ");
+                }
+                sb.delete(sb.length() - 2, sb.length());
+                System.out.println(sb);
+            }
             int depth;
             current = frontier.remove();
             closed.add(current);
@@ -64,7 +85,7 @@ public class BFS extends Algorithm {
             }
         } while (!frontier.isEmpty());
         StringBuilder pathFound = new StringBuilder("Path Found: ");
-        int pathCost = solution.size();
+        int pathCost = solution.size() - 1;
         while (!solution.isEmpty()) {
             pathFound.append(solution.pop()).append(" -> ");
         }
