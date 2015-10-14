@@ -9,8 +9,11 @@ package src;
  *
  * @author MiriamMarie
  */
-public class GreedyBfsEuc extends Algorithm{
 
+public class GreedyBfsEuc extends Algorithm{
+    public GreedyBfsEuc(char[][] maze, String mazeName){
+        this.init(maze, mazeName);
+    }
     @Override
     public void solve() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -22,5 +25,4 @@ public class GreedyBfsEuc extends Algorithm{
         double ySquaredDiff = Math.pow((node.y)-(endNode.x),2);
         return xSquaredDiff + ySquaredDiff;
     }
-    
 }
