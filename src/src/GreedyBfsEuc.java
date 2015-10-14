@@ -9,6 +9,18 @@ package src;
  *
  * @author MiriamMarie
  */
-public class GreedyBfsEuc {
+public class GreedyBfsEuc extends Algorithm{
+
+    @Override
+    public void solve() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public double heuristic(Node node) {
+        double xSquaredDiff = Math.pow((node.x)-(endNode.x),2);
+        double ySquaredDiff = Math.pow((node.y)-(endNode.x),2);
+        return xSquaredDiff + ySquaredDiff;
+    }
     
 }
