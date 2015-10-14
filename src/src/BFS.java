@@ -44,7 +44,7 @@ public class BFS extends Algorithm {
                 System.out.println("Current Node: " + (current != null ? current : "None"));
                 StringBuilder sb = new StringBuilder("Frontier: ");
                 for (Node n : frontier) {
-                    sb.append(n).append(" Cost: ").append(getCost(n)).append("; ");
+                    sb.append(n).append(" F Value: ").append(getCost(n)).append("; ");
                 }
                 sb.delete(sb.length() - 2, sb.length());
                 System.out.println(sb);
