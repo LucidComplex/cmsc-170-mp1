@@ -62,7 +62,11 @@ public class BFS extends Algorithm {
             for (Node child : current.children) {
                 if (!frontier.contains(child) && !closed.contains(child)) {
                     frontier.add(child);
-                    maze[child.x][child.y] = 'F';
+					if (child.equals(endNode)) {
+						maze[child.x][child.y] = 'f';
+					} else {
+						maze[child.x][child.y] = 'F';
+					}
                 }
             }
             if (frontier.size() > maxFrontierSize) {
@@ -116,7 +120,11 @@ public class BFS extends Algorithm {
 				System.out.println("");
 			}
 			// reset how current node looks like after printing
-			maze[current.x][current.y] = ' ';
+			if (current.equals(startNode)) {
+				maze[current.x][current.y] = '.';
+			} else {
+				maze[current.x][current.y] = ' ';
+			}
 		}
 	}
 }
