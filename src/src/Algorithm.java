@@ -19,6 +19,8 @@ public abstract class Algorithm {
     
     public void init(char[][] maze){
         // look for start point
+		startNode = null;
+		endNode = null;
         this.maze = maze;
         for (int x = 0; x < maze.length; x++) {
             for (int y = 0; y < maze[x].length; y++) {
@@ -28,7 +30,7 @@ public abstract class Algorithm {
 					endNode = new Node(x, y, 'P');
 				}
             }
-            if (startNode != null) {
+            if (startNode != null && endNode != null) {
                 break;
             }
         }
