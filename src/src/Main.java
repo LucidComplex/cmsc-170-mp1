@@ -14,8 +14,8 @@ import java.io.UnsupportedEncodingException;
 public class Main {
     public static void main(String[] args) throws UnsupportedEncodingException {
         MazeReader mr = new MazeReader();
-        char[][] tinyMaze = mr.read("tinyMaze");
-        Algorithm algo = new BFS(tinyMaze, "tinyMaze");
+        char[][] maze = mr.read("openMaze");
+        Algorithm algo = new GreedyBfsEuc(maze, "tinyMaze");
         algo.solve();
     }
 }

@@ -5,10 +5,8 @@
  */
 package src;
 
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
 import java.util.Stack;
 
 /**
@@ -16,28 +14,28 @@ import java.util.Stack;
  * @author MiriamMarie
  */
 public class DFS extends Algorithm {
-	private int iter;
 
-    public DFS(char[][] maze, String mazeName){
+    public DFS(char[][] maze, String mazeName) {
         this.init(maze, mazeName);
-		iter = 0;
+        iter = 0;
+        maxDepth = 0;
+        maxFrontierSize = 0;
     }
+
     @Override
     public void solve() {
         Stack<Node> frontier = new Stack<>();
         List<Node> closed = new LinkedList<>();
         Stack<Node> solution = new Stack<>();
-        int maxDepth = 0;
-        int maxFrontierSize = 0;
         frontier.add(startNode);
         Node current = null;
         do {
 
-			// get current node from queue
+            // get current node from queue
             current = frontier.pop();
             closed.add(current);
 
-			// check if current node is goal
+            // check if current node is goal
             if (current.equals(endNode)) {
                 while (true) {
                     solution.add(current);
@@ -47,28 +45,28 @@ public class DFS extends Algorithm {
                         break;
                     }
                 }
-				printMaze(endNode, frontier);
+                printMaze(endNode, frontier);
                 break;
             }
 
-			// add walkable neighbors to frontier
+            // add walkable neighbors to frontier
             populateChildren(current);
             for (Node child : current.children) {
                 if (!frontier.contains(child) && !closed.contains(child)) {
                     frontier.add(child);
-					if (child.equals(endNode)) {
-						maze[child.x][child.y] = 'f';
-					} else {
-						maze[child.x][child.y] = 'F';
-					}
+                    if (child.equals(endNode)) {
+                        maze[child.x][child.y] = 'f';
+                    } else {
+                        maze[child.x][child.y] = 'F';
+                    }
                 }
             }
             if (frontier.size() > maxFrontierSize) {
                 maxFrontierSize = frontier.size();
             }
 
-			printMaze(current, frontier);
-            
+            printMaze(current, frontier);
+
             // check depth
             int depth;
             Node temp = current;
@@ -99,31 +97,4 @@ public class DFS extends Algorithm {
         return 0;
     }
 
-	private void printMaze(Node current, Stack<Node> frontier) {
-		// print maze on tinyMaze
-		if (mazeName.matches("tinyMaze")) {
-			// set current node to C in map
-			maze[current.x][current.y] = 'C';
-			System.out.println("Iteration #" + ++iter);
-			System.out.println("Current Node: " + current);
-			System.out.println("Frontier:");
-			for (Node n : frontier) {
-				System.out.println("  " + n + " F Value: " + getCost(n));
-			}
-			String lines = Arrays.deepToString(maze);
-			for (int i = 0; i<maze.length;i++){
-				for(int j = 0; j<maze[i].length;j++){
-					System.out.print(maze[i][j]);
-				}
-				System.out.println("");
-			}
-			// reset how current node looks like after printing
-			if (current.equals(startNode)) {
-				maze[current.x][current.y] = '.';
-			} else {
-				maze[current.x][current.y] = ' ';
-			}
-		}
-	}
-    
 }

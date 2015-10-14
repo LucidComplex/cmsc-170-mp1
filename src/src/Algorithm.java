@@ -5,6 +5,8 @@
  */
 package src;
 
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -18,6 +20,10 @@ public abstract class Algorithm {
     protected Node endNode;
     protected char[][] maze;
     protected String mazeName;
+    
+    protected int iter;
+    protected int maxFrontierSize;
+    protected int maxDepth;
 
     public void init(char[][] maze, String mazeName) {
         // look for start point
@@ -62,13 +68,40 @@ public abstract class Algorithm {
         node.children = children;
     }
 
-    protected int getCost(Node n) {
-        int cost = -1;
+    protected double getCost(Node n) {
+        double cost = -1;
+        cost += heuristic(n);
         while (n != null) {
             cost++;
             n = n.parent;
         }
-        cost += heuristic(n);
         return cost;
+    }
+    
+    protected void printMaze(Node current, Collection<Node> frontier) {
+        // print maze on tinyMaze
+        if (mazeName.matches("tinyMaze")) {
+            // set current node to C in map
+            maze[current.x][current.y] = 'C';
+            System.out.println("Iteration #" + ++iter);
+            System.out.println("Current Node: " + current);
+            System.out.println("Frontier:");
+            for (Node n : frontier) {
+                System.out.println("  " + n + " F Value: " + getCost(n));
+            }
+            String lines = Arrays.deepToString(maze);
+            for (int i = 0; i < maze.length; i++) {
+                for (int j = 0; j < maze[i].length; j++) {
+                    System.out.print(maze[i][j]);
+                }
+                System.out.println("");
+            }
+            // reset how current node looks like after printing
+            if (current.equals(startNode)) {
+                maze[current.x][current.y] = '.';
+            } else {
+                maze[current.x][current.y] = ' ';
+            }
+        }
     }
 }
