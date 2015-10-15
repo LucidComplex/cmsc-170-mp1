@@ -16,29 +16,30 @@ import java.util.Stack;
  *
  * @author MiriamMarie
  */
-public class GreedyBfsEuc extends Algorithm {
+public class aStarEuc extends Algorithm{
 
-    public GreedyBfsEuc(char[][] maze, String mazeName) {
+    public aStarEuc(char[][] maze, String mazeName) {
         this.init(maze, mazeName);
         maxFrontierSize = 0;
         maxDepth = 0;
         iter = 0;
     }
-
+    
     @Override
     public void solve() {
+        
         List<Node> closed = new LinkedList<>();
         Stack<Node> solution = new Stack<>();
         Node current = null;
-        GreedyBfsEuc that = this;
+        aStarEuc that = this;
         
         //Used to choose the node with the best/lowest cost
         AbstractQueue<Node> frontier
                 = new PriorityQueue<>(new Comparator<Node>() {
                     @Override
                     public int compare(Node o1, Node o2) {
-                        double cost1 = that.heuristic(o1);
-                        double cost2 = that.heuristic(o2);
+                        double cost1 = that.getCost(o1);
+                        double cost2 = that.getCost(o2);
 
                         if (cost1 > cost2) {
                             return 1;
@@ -120,8 +121,4 @@ public class GreedyBfsEuc extends Algorithm {
         return Math.sqrt(xSquaredDiff + ySquaredDiff);
     }
     
-    @Override
-    protected double getCost(Node node){
-        return heuristic(node);
-    }
 }
