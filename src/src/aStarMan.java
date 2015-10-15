@@ -121,7 +121,7 @@ public class aStarMan extends Algorithm {
     public double heuristic(Node node) {
         double dx = Math.abs((node.x) - (endNode.x));
         double dy = Math.abs((node.y) - (endNode.y));
-        return (dx + dy) * Math.min(dx, dy);
+        return (dx + dy);
     }
 
 }
