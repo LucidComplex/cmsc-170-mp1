@@ -16,9 +16,9 @@ import java.util.Stack;
  *
  * @author parfait
  */
-public class GreedyBfsMan extends Algorithm{
-    
-    public GreedyBfsMan(char[][] maze, String mazeName){
+public class GreedyBfsMan extends Algorithm {
+
+    public GreedyBfsMan(char[][] maze, String mazeName) {
         this.init(maze, mazeName);
     }
 
@@ -28,7 +28,7 @@ public class GreedyBfsMan extends Algorithm{
         Stack<Node> solution = new Stack<>();
         Node current = null;
         GreedyBfsMan that = this;
-        
+
         //Used to choose the node with the best/lowest cost
         AbstractQueue<Node> frontier
                 = new PriorityQueue<>(new Comparator<Node>() {
@@ -66,7 +66,7 @@ public class GreedyBfsMan extends Algorithm{
                 printMaze(endNode, frontier);
                 break;
             }
-            
+
             // populate frontier with walkable nodes
             populateChildren(current);
             for (Node child : current.children) {
@@ -79,12 +79,12 @@ public class GreedyBfsMan extends Algorithm{
                     }
                 }
             }
-            
+
             //Set frontier size
             if (frontier.size() > maxFrontierSize) {
                 maxFrontierSize = frontier.size();
             }
-            
+
             printMaze(current, frontier);
 
             // Search max depth
@@ -99,14 +99,11 @@ public class GreedyBfsMan extends Algorithm{
                 maxDepth = depth;
             }
         } while (!frontier.isEmpty());
-        
-        StringBuilder pathFound = new StringBuilder("Path Found: ");
+
         int pathCost = solution.size() - 1;
-        while (!solution.isEmpty()) {
-            pathFound.append(solution.pop()).append(" -> ");
-        }
-        pathFound.delete(pathFound.length() - 4, pathFound.length());
-        System.out.println(pathFound);
+        printSolution(solution);
+        printMaze(endNode, frontier);
+
         System.out.println("Path Cost: " + pathCost);
         System.out.println("Nodes Expanded: " + closed.size());
         System.out.println("Max Depth: " + maxDepth);
@@ -115,13 +112,11 @@ public class GreedyBfsMan extends Algorithm{
 
     @Override
     public double heuristic(Node node) {
-        double h = Math.abs(node.x - endNode.x) + Math.abs(node.y - endNode.y);
-        
-        return h;
+        return Math.abs(node.x - endNode.x) + Math.abs(node.y - endNode.y);
     }
-    
+
     @Override
-    protected double getCost(Node node){
+    protected double getCost(Node node) {
         return heuristic(node);
     }
 }
