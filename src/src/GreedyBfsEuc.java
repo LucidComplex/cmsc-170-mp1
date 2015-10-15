@@ -103,13 +103,10 @@ public class GreedyBfsEuc extends Algorithm {
             }
         } while (!frontier.isEmpty());
         
-        StringBuilder pathFound = new StringBuilder("Path Found: ");
         int pathCost = solution.size() - 1;
-        while (!solution.isEmpty()) {
-            pathFound.append(solution.pop()).append(" -> ");
-        }
-        pathFound.delete(pathFound.length() - 4, pathFound.length());
-        System.out.println(pathFound);
+        printSolution(solution);
+        printMaze(endNode, frontier);
+
         System.out.println("Path Cost: " + pathCost);
         System.out.println("Nodes Expanded: " + closed.size());
         System.out.println("Max Depth: " + maxDepth);

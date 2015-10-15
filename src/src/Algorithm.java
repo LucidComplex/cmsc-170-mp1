@@ -9,6 +9,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Stack;
 
 /**
  *
@@ -100,8 +101,20 @@ public abstract class Algorithm {
             if (current.equals(startNode)) {
                 maze[current.x][current.y] = '.';
             } else {
-                maze[current.x][current.y] = ' ';
+                maze[current.x][current.y] = '=';
             }
         }
+    }
+    
+    protected void printSolution(Stack<Node> solution) {
+        StringBuilder pathFound = new StringBuilder("Path Found: ");
+        
+        while (!solution.isEmpty()) {
+            Node solutionNode = solution.pop();
+            pathFound.append(solutionNode).append(" -> ");
+            maze[solutionNode.x][solutionNode.y] = '/';
+        }
+        pathFound.delete(pathFound.length() - 4, pathFound.length());
+        System.out.println(pathFound);
     }
 }
