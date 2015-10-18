@@ -116,16 +116,11 @@ public class UniformCost extends Algorithm {
 
     @Override
     protected double getCost(Node n) {
-        double cost = -1;
-        while (n != null) {
-            cost+=cost1(n);//-- change cost function --
-            n = n.parent;
-        }
-        return cost;
+        return cost2(n);
     }
 
     public double cost1(Node n) {
-        return Math.pow(0.5, n.y);
+        return 1/Math.pow(2, n.y);
     }
 
     public double cost2(Node n) {
