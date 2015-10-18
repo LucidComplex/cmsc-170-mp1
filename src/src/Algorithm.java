@@ -5,11 +5,16 @@
  */
 package src;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Stack;
+import mazeui.Coordinate;
+import mazeui.MazeState;
+import mazeui.MazeUI;
+import mazeui.TinyMazeUI;
 
 /**
  *
@@ -25,6 +30,9 @@ public abstract class Algorithm {
     protected int iter;
     protected int maxFrontierSize;
     protected int maxDepth;
+    
+    //Creates a TinyMaze GUI
+    MazeUI mui;
 
     public void init(char[][] maze, String mazeName) {
         // look for start point
@@ -34,15 +42,20 @@ public abstract class Algorithm {
         this.maze = maze;
         for (int x = 0; x < maze.length; x++) {
             for (int y = 0; y < maze[x].length; y++) {
-                if (maze[x][y] == '.') {
-                    startNode = new Node(x, y, '.');
-                } else if (maze[x][y] == 'P') {
-                    endNode = new Node(x, y, 'P');
+                if (maze[x][y] == 'P') {
+                    startNode = new Node(x, y, 'P');
+                } else if (maze[x][y] == '.') {
+                    endNode = new Node(x, y, '.');
                 }
             }
             if (startNode != null && endNode != null) {
                 break;
             }
+        }
+        //Initializes the GUI Maze by parsing the 2D Char array
+        if(mazeName.matches("tinyMaze")){
+            mui = new TinyMazeUI();
+            mui.parse2DArray(maze);
         }
     }
 
@@ -81,15 +94,22 @@ public abstract class Algorithm {
     
     protected void printMaze(Node current, Collection<Node> frontier) {
         // print maze on tinyMaze
-//        if (mazeName.matches("tinyMaze")) {
             // set current node to C in map
             maze[current.x][current.y] = 'C';
             System.out.println("Iteration #" + ++iter);
             System.out.println("Current Node: " + current);
             System.out.println("Frontier:");
+            
+            ArrayList<Coordinate> fs = new ArrayList<>();
             for (Node n : frontier) {
                 System.out.println("  " + n + " F Value: " + getCost(n));
+                fs.add(new Coordinate(n.x, n.y));
             }
+            //Adds a maze state to the GUI maze for each iteration
+            if(mazeName.matches("tinyMaze")){
+                mui.addState(new MazeState(current, fs));
+            }
+            
             String lines = Arrays.deepToString(maze);
             for (int i = 0; i < maze.length; i++) {
                 for (int j = 0; j < maze[i].length; j++) {
@@ -99,7 +119,7 @@ public abstract class Algorithm {
             }
             // reset how current node looks like after printing
             if (current.equals(startNode)) {
-                maze[current.x][current.y] = '.';
+                maze[current.x][current.y] = 'P';
             } else {
                 maze[current.x][current.y] = '=';
             }
@@ -109,11 +129,20 @@ public abstract class Algorithm {
     protected void printSolution(Stack<Node> solution) {
         StringBuilder pathFound = new StringBuilder("Path Found: ");
         
+        ArrayList<Coordinate> paths = new ArrayList<>();
+        
+        
         while (!solution.isEmpty()) {
             Node solutionNode = solution.pop();
             pathFound.append(solutionNode).append(" -> ");
             maze[solutionNode.x][solutionNode.y] = '/';
+            paths.add(new Coordinate(solutionNode.x, solutionNode.y));
         }
+        
+        if(mazeName.matches("tinyMaze")){
+            mui.setPath(paths);
+        }
+        
         pathFound.delete(pathFound.length() - 4, pathFound.length());
         System.out.println(pathFound);
     }
