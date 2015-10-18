@@ -16,22 +16,21 @@ import java.util.Stack;
  *
  * @author mary'sRose
  */
-public class aStarMan extends Algorithm {
+public class UniformCost extends Algorithm {
 
-    public aStarMan(char[][] maze, String mazeName) {
+    public UniformCost(char[][] maze, String mazeName) {
         this.init(maze, mazeName);
-        maxFrontierSize = 0;
-        maxDepth = 0;
         iter = 0;
+        maxDepth = 0;
+        maxFrontierSize = 0;
     }
 
     @Override
     public void solve() {
-
         List<Node> closed = new LinkedList<>();
         Stack<Node> solution = new Stack<>();
         Node current = null;
-        aStarMan that = this;
+        UniformCost that = this;
 
         //Used to choose the node with the best/lowest cost
         AbstractQueue<Node> frontier
@@ -114,31 +113,28 @@ public class aStarMan extends Algorithm {
         System.out.println("Max Frontier Size: " + maxFrontierSize);
     }
 
-    @Override
-    public double heuristic(Node node) {
-        double dx = Math.abs((node.x) - (endNode.x));
-        double dy = Math.abs((node.y) - (endNode.y));
-        return (dx + dy);
-    }
 
     @Override
     protected double getCost(Node n) {
-        double cost = -1;
-        cost += heuristic(n);
+        double cost = 0;
         while (n != null) {
-            cost+=cost2(n); // change cost fxn
+            cost+=cost1(n); // change cost fxn
             n = n.parent;
         }
         return cost;
     }
 
     public double cost1(Node n) {
-        return 1 / Math.pow(2, n.y);
+        return 1/Math.pow(2, n.y);
     }
 
     public double cost2(Node n) {
         return Math.pow(2, n.y);
     }
-    
-    
+
+    @Override
+    public double heuristic(Node node) {
+        return 0;
+    }
+
 }

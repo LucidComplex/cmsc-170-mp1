@@ -94,7 +94,6 @@ public abstract class Algorithm {
     
     protected void printMaze(Node current, Collection<Node> frontier) {
         // print maze on tinyMaze
-//        if (mazeName.matches("openMaze")) {
             // set current node to C in map
             maze[current.x][current.y] = 'C';
             System.out.println("Iteration #" + ++iter);
