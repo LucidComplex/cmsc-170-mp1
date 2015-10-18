@@ -32,7 +32,7 @@ public abstract class Algorithm {
     protected int maxDepth;
     
     //Creates a TinyMaze GUI
-    MazeUI mui = new TinyMazeUI();
+    MazeUI mui;
 
     public void init(char[][] maze, String mazeName) {
         // look for start point
@@ -107,7 +107,9 @@ public abstract class Algorithm {
                 fs.add(new Coordinate(n.x, n.y));
             }
             //Adds a maze state to the GUI maze for each iteration
-            mui.addState(new MazeState(current, fs));
+            if(mazeName.matches("tinyMaze")){
+                mui.addState(new MazeState(current, fs));
+            }
             
             String lines = Arrays.deepToString(maze);
             for (int i = 0; i < maze.length; i++) {
@@ -137,7 +139,10 @@ public abstract class Algorithm {
             maze[solutionNode.x][solutionNode.y] = '/';
             paths.add(new Coordinate(solutionNode.x, solutionNode.y));
         }
-        mui.setPath(paths);
+        
+        if(mazeName.matches("tinyMaze")){
+            mui.setPath(paths);
+        }
         
         pathFound.delete(pathFound.length() - 4, pathFound.length());
         System.out.println(pathFound);
