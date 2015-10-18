@@ -14,8 +14,8 @@ import java.io.UnsupportedEncodingException;
 public class Main {
     public static void main(String[] args) throws UnsupportedEncodingException {
         MazeReader mr = new MazeReader();
-        char[][] maze = mr.read("tinyMaze");
-        Algorithm algo = new aStarMan(maze, "tinyMaze");
+        char[][] maze = mr.read("openMaze");
+        Algorithm algo = new AStarOwnHeur(maze, "tinyMaze");
         algo.solve();
     }
 }
