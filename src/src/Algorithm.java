@@ -40,7 +40,6 @@ public abstract class Algorithm {
         startNode = null;
         endNode = null;
         this.maze = maze;
-        mui = new TinyMazeUI();
         for (int x = 0; x < maze.length; x++) {
             for (int y = 0; y < maze[x].length; y++) {
                 if (maze[x][y] == 'P') {
@@ -55,6 +54,7 @@ public abstract class Algorithm {
         }
         //Initializes the GUI Maze by parsing the 2D Char array
         if(mazeName.matches("tinyMaze")){
+            mui = new TinyMazeUI();
             mui.parse2DArray(maze);
         }
     }
@@ -107,7 +107,9 @@ public abstract class Algorithm {
                 fs.add(new Coordinate(n.x, n.y));
             }
             //Adds a maze state to the GUI maze for each iteration
-            mui.addState(new MazeState(current, fs));
+            if(mazeName.matches("tinyMaze")){
+                mui.addState(new MazeState(current, fs));
+            }
             
             String lines = Arrays.deepToString(maze);
             for (int i = 0; i < maze.length; i++) {
@@ -137,7 +139,10 @@ public abstract class Algorithm {
             maze[solutionNode.x][solutionNode.y] = '/';
             paths.add(new Coordinate(solutionNode.x, solutionNode.y));
         }
-        mui.setPath(paths);
+        
+        if(mazeName.matches("tinyMaze")){
+            mui.setPath(paths);
+        }
         
         pathFound.delete(pathFound.length() - 4, pathFound.length());
         System.out.println(pathFound);
