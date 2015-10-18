@@ -20,7 +20,7 @@ import mazeui.TinyMazeUI;
  *
  * @author MiriamMarie
  */
-public abstract class Algorithm {
+public abstract class AlgorithmMultiple {
 
     protected Node startNode;
     protected Node endNode;
@@ -32,7 +32,7 @@ public abstract class Algorithm {
     protected int maxDepth;
     
     //Creates a TinyMaze GUI
-    protected MazeUI mui;
+    MazeUI mui;
 
     public void init(char[][] maze, String mazeName) {
         // look for start point

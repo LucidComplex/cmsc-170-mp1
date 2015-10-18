@@ -20,6 +20,9 @@ public class GreedyBfsMan extends Algorithm {
 
     public GreedyBfsMan(char[][] maze, String mazeName) {
         this.init(maze, mazeName);
+        maxFrontierSize = 0;
+        maxDepth = 0;
+        iter = 0;
     }
 
     @Override

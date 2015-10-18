@@ -18,6 +18,12 @@ import java.util.Stack;
  */
 public class GreedyBfsOwnHeur extends Algorithm{
 
+    public GreedyBfsOwnHeur(char[][] maze, String mazeName){
+        this.init(maze, mazeName);
+        maxFrontierSize = 0;
+        maxDepth = 0;
+        iter = 0;
+    }
     @Override
     public void solve() {
         List<Node> closed = new LinkedList<>();
