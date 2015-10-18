@@ -116,7 +116,7 @@ public class UniformCost extends Algorithm {
 
     @Override
     protected double getCost(Node n) {
-        return cost2(n);
+        return cost1(n);
     }
 
     public double cost1(Node n) {

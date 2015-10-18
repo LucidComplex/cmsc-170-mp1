@@ -16,7 +16,7 @@ import java.util.Stack;
  *
  * @author MiriamMarie
  */
-public class aStarEuc extends Algorithm{
+public class aStarEuc extends Algorithm {
 
     public aStarEuc(char[][] maze, String mazeName) {
         this.init(maze, mazeName);
@@ -24,15 +24,15 @@ public class aStarEuc extends Algorithm{
         maxDepth = 0;
         iter = 0;
     }
-    
+
     @Override
     public void solve() {
-        
+
         List<Node> closed = new LinkedList<>();
         Stack<Node> solution = new Stack<>();
         Node current = null;
         aStarEuc that = this;
-        
+
         //Used to choose the node with the best/lowest cost
         AbstractQueue<Node> frontier
                 = new PriorityQueue<>(new Comparator<Node>() {
@@ -70,7 +70,7 @@ public class aStarEuc extends Algorithm{
                 printMaze(endNode, frontier);
                 break;
             }
-            
+
             // populate frontier with walkable nodes
             populateChildren(current);
             for (Node child : current.children) {
@@ -83,12 +83,12 @@ public class aStarEuc extends Algorithm{
                     }
                 }
             }
-            
+
             //Set frontier size
             if (frontier.size() > maxFrontierSize) {
                 maxFrontierSize = frontier.size();
             }
-            
+
             printMaze(current, frontier);
 
             // Search max depth
@@ -103,7 +103,7 @@ public class aStarEuc extends Algorithm{
                 maxDepth = depth;
             }
         } while (!frontier.isEmpty());
-        
+
         int pathCost = solution.size() - 1;
         printSolution(solution);
         printMaze(endNode, frontier);
@@ -120,5 +120,24 @@ public class aStarEuc extends Algorithm{
         double ySquaredDiff = Math.pow((node.y) - (endNode.y), 2);
         return Math.sqrt(xSquaredDiff + ySquaredDiff);
     }
-    
+
+    @Override
+    protected double getCost(Node n) {
+//        double cost = -1;
+//        cost += heuristic(n);
+//        while (n != null) {
+//            cost+=cost2(n); // change cost fxn
+//            n = n.parent;
+//        }
+        return cost2(n)+heuristic(n);
+    }
+
+    public double cost1(Node n) {
+        return 1 / Math.pow(2, n.y);
+    }
+
+    public double cost2(Node n) {
+        return Math.pow(2, n.y);
+    }
+
 }

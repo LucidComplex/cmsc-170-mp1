@@ -121,4 +121,24 @@ public class aStarMan extends Algorithm {
         return (dx + dy);
     }
 
+    @Override
+    protected double getCost(Node n) {
+        double cost = -1;
+        cost += heuristic(n);
+        while (n != null) {
+            cost+=cost2(n); // change cost fxn
+            n = n.parent;
+        }
+        return cost;
+    }
+
+    public double cost1(Node n) {
+        return 1 / Math.pow(2, n.y);
+    }
+
+    public double cost2(Node n) {
+        return Math.pow(2, n.y);
+    }
+    
+    
 }
