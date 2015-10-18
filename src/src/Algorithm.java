@@ -54,6 +54,7 @@ public abstract class Algorithm {
         }
         //Initializes the GUI Maze by parsing the 2D Char array
         if(mazeName.matches("tinyMaze")){
+            mui = new TinyMazeUI();
             mui.parse2DArray(maze);
         }
     }

@@ -123,10 +123,10 @@ public class TinyMazeUI extends javax.swing.JFrame implements MazeUI{
                     markWall(i, j);
                     
                 }
-                else if(maze[j][i] == 'P'){
+                else if(maze[j][i] == '.'){
                     setGoal(i, j);
                 }
-                else if(maze[j][i] == '.'){
+                else if(maze[j][i] == 'P'){
                     setStart(i, j);
                 }
            }     
