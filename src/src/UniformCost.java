@@ -115,18 +115,12 @@ public class UniformCost extends Algorithm {
 
     @Override
     public double heuristic(Node node) {
-        return cost2(node);
+        return cost1(node);
     }
 
     @Override
     public double getCost(Node n) {
-        double cost = -1;
-        cost += heuristic(n);
-        while (n != null) {
-            cost ++;
-            n = n.parent;
-        }
-        return cost;
+        return heuristic(n);
     }
 
     public double cost1(Node n) {
