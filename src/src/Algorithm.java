@@ -42,10 +42,10 @@ public abstract class Algorithm {
         this.maze = maze;
         for (int x = 0; x < maze.length; x++) {
             for (int y = 0; y < maze[x].length; y++) {
-                if (maze[x][y] == '.') {
-                    startNode = new Node(x, y, '.');
-                } else if (maze[x][y] == 'P') {
-                    endNode = new Node(x, y, 'P');
+                if (maze[x][y] == 'P') {
+                    startNode = new Node(x, y, 'P');
+                } else if (maze[x][y] == '.') {
+                    endNode = new Node(x, y, '.');
                 }
             }
             if (startNode != null && endNode != null) {
@@ -117,7 +117,7 @@ public abstract class Algorithm {
             }
             // reset how current node looks like after printing
             if (current.equals(startNode)) {
-                maze[current.x][current.y] = '.';
+                maze[current.x][current.y] = 'P';
             } else {
                 maze[current.x][current.y] = '=';
             }
