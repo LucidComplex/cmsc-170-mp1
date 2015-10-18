@@ -81,7 +81,7 @@ public abstract class Algorithm {
     
     protected void printMaze(Node current, Collection<Node> frontier) {
         // print maze on tinyMaze
-        if (mazeName.matches("tinyMaze")) {
+//        if (mazeName.matches("tinyMaze")) {
             // set current node to C in map
             maze[current.x][current.y] = 'C';
             System.out.println("Iteration #" + ++iter);
@@ -103,7 +103,7 @@ public abstract class Algorithm {
             } else {
                 maze[current.x][current.y] = '=';
             }
-        }
+//        }
     }
     
     protected void printSolution(Stack<Node> solution) {
