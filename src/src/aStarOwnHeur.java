@@ -16,9 +16,9 @@ import java.util.Stack;
  *
  * @author MiriamMarie
  */
-public class AStarOwnHeur extends Algorithm{
+public class aStarOwnHeur extends Algorithm{
     
-    public AStarOwnHeur(char[][] maze, String mazeName){
+    public aStarOwnHeur(char[][] maze, String mazeName){
         this.init(maze, mazeName);
         maxFrontierSize = 0;
         maxDepth = 0;
@@ -30,7 +30,7 @@ public class AStarOwnHeur extends Algorithm{
         List<Node> closed = new LinkedList<>();
         Stack<Node> solution = new Stack<>();
         Node current = null;
-        AStarOwnHeur that = this;
+        aStarOwnHeur that = this;
 
         //Used to choose the node with the best/lowest cost
         AbstractQueue<Node> frontier
