@@ -31,14 +31,14 @@ public class UniformCost extends Algorithm {
         Stack<Node> solution = new Stack<>();
         Node current = null;
         UniformCost that = this;
-        
+
         //Used to choose the node with the best/lowest cost
         AbstractQueue<Node> frontier
                 = new PriorityQueue<>(new Comparator<Node>() {
                     @Override
                     public int compare(Node o1, Node o2) {
-                        double cost1 = that.heuristic(o1);
-                        double cost2 = that.heuristic(o2);
+                        double cost1 = that.getCost(o1);
+                        double cost2 = that.getCost(o2);
 
                         if (cost1 > cost2) {
                             return 1;
@@ -69,7 +69,7 @@ public class UniformCost extends Algorithm {
                 printMaze(endNode, frontier);
                 break;
             }
-            
+
             // populate frontier with walkable nodes
             populateChildren(current);
             for (Node child : current.children) {
@@ -82,12 +82,12 @@ public class UniformCost extends Algorithm {
                     }
                 }
             }
-            
+
             //Set frontier size
             if (frontier.size() > maxFrontierSize) {
                 maxFrontierSize = frontier.size();
             }
-            
+
             printMaze(current, frontier);
 
             // Search max depth
@@ -102,7 +102,7 @@ public class UniformCost extends Algorithm {
                 maxDepth = depth;
             }
         } while (!frontier.isEmpty());
-        
+
         int pathCost = solution.size() - 1;
         printSolution(solution);
         printMaze(endNode, frontier);
@@ -113,22 +113,23 @@ public class UniformCost extends Algorithm {
         System.out.println("Max Frontier Size: " + maxFrontierSize);
     }
 
-    @Override
-    public double heuristic(Node node) {
-        return cost1(node);
-    }
 
     @Override
-    public double getCost(Node n) {
-        return heuristic(n);
+    protected double getCost(Node n) {
+        return cost1(n);
     }
 
     public double cost1(Node n) {
-        return 1 / (2 * n.x);
+        return Math.pow(0.5, n.y);
     }
 
     public double cost2(Node n) {
-        return Math.pow(2, n.x);
+        return Math.pow(2, n.y);
+    }
+
+    @Override
+    public double heuristic(Node node) {
+        return 0;
     }
 
 }
