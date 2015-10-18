@@ -95,19 +95,4 @@ public class BFS extends Algorithm {
         System.out.println("Max Frontier Size: " + maxFrontierSize);
 
     }
-
-    @Override
-    protected double getCost(Node n) {
-        System.out.println("override");
-        return cost2(n); // change cost fxn
-    }
-
-    public double cost1(Node n) {
-        return 1/Math.pow(2, n.y);
-    }
-
-    public double cost2(Node n) {
-        return Math.pow(2, n.y);
-    }
-    
 }
