@@ -32,7 +32,7 @@ public abstract class Algorithm {
     protected int maxDepth;
     
     //Creates a TinyMaze GUI
-    MazeUI mui = new TinyMazeUI();
+    protected MazeUI mui;
 
     public void init(char[][] maze, String mazeName) {
         // look for start point
@@ -40,6 +40,7 @@ public abstract class Algorithm {
         startNode = null;
         endNode = null;
         this.maze = maze;
+        mui = new TinyMazeUI();
         for (int x = 0; x < maze.length; x++) {
             for (int y = 0; y < maze[x].length; y++) {
                 if (maze[x][y] == 'P') {
