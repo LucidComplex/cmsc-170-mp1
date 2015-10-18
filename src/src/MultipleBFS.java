@@ -8,13 +8,12 @@ package src;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
-import java.util.Stack;
 
 /**
  *
  * @author MiriamMarie
  */
-public class MultipleBFS extends Algorithm {
+public class MultipleBFS extends MultipleGoalAlgorithm {
 
     public MultipleBFS(char[][] maze, String mazeName) {
         this.init(maze, mazeName);
@@ -44,16 +43,14 @@ public class MultipleBFS extends Algorithm {
             // check if current node is goal
             if (endNodes.contains(current)) {
                 solution.add(current);
-                // insert 
+                // "restart" search with current node as startNode 
                 ((LinkedList) frontier).add(0, current);
-                while (true) {
-                    solution.add(current);
-                    if (current.parent != null) {
-                        current = current.parent;
-                    } else {
-                        break;
-                    }
-                }
+                startNode = current;
+                endNodes.remove(current);
+            }
+            // end loop if all goals reached
+            if (endNodes.isEmpty()) {
+                endNode = current;
                 printMaze(endNode, frontier);
                 break;
             }
@@ -63,7 +60,7 @@ public class MultipleBFS extends Algorithm {
             for (Node child : current.children) {
                 if (!frontier.contains(child) && !closed.contains(child)) {
                     frontier.add(child);
-                    if (child.equals(endNode)) {
+                    if (endNodes.contains(child)) {
                         maze[child.x][child.y] = 'f';
                     } else {
                         maze[child.x][child.y] = 'F';

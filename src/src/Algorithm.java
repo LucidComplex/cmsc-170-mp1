@@ -23,6 +23,7 @@ import mazeui.TinyMazeUI;
 public abstract class Algorithm {
 
     protected Node startNode;
+    protected Node genesisNode;
     protected Node endNode;
     protected char[][] maze;
     protected String mazeName;
@@ -43,7 +44,8 @@ public abstract class Algorithm {
         for (int x = 0; x < maze.length; x++) {
             for (int y = 0; y < maze[x].length; y++) {
                 if (maze[x][y] == 'P') {
-                    startNode = new Node(x, y, 'P');
+                    genesisNode = new Node(x, y, 'P');
+                    startNode = genesisNode;
                 } else if (maze[x][y] == '.') {
                     endNode = new Node(x, y, '.');
                 }
