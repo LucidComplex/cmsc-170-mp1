@@ -5,9 +5,11 @@
  */
 package src;
 
+import java.util.AbstractQueue;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
+import java.util.PriorityQueue;
 import java.util.Stack;
 
 /**
@@ -25,17 +27,36 @@ public class UniformCost extends Algorithm {
 
     @Override
     public void solve() {
-        Queue<Node> frontier = new LinkedList<>();
         List<Node> closed = new LinkedList<>();
         Stack<Node> solution = new Stack<>();
-        frontier.add(startNode);
         Node current = null;
+        UniformCost that = this;
+        
+        //Used to choose the node with the best/lowest cost
+        AbstractQueue<Node> frontier
+                = new PriorityQueue<>(new Comparator<Node>() {
+                    @Override
+                    public int compare(Node o1, Node o2) {
+                        double cost1 = that.heuristic(o1);
+                        double cost2 = that.heuristic(o2);
+
+                        if (cost1 > cost2) {
+                            return 1;
+                        } else if (cost1 < cost2) {
+                            return -1;
+                        } else {
+                            return 0;
+                        }
+                    }
+                });
+
+        frontier.add(startNode);
         do {
-            // get current node from queue
+            // grab best node from frontier
             current = frontier.remove();
             closed.add(current);
 
-            // check if current node is goal
+            // check if current node is goal node: Builds up stack used for tracing
             if (current.equals(endNode)) {
                 while (true) {
                     solution.add(current);
@@ -48,8 +69,8 @@ public class UniformCost extends Algorithm {
                 printMaze(endNode, frontier);
                 break;
             }
-
-            // add walkable neighbors to frontier
+            
+            // populate frontier with walkable nodes
             populateChildren(current);
             for (Node child : current.children) {
                 if (!frontier.contains(child) && !closed.contains(child)) {
@@ -61,13 +82,15 @@ public class UniformCost extends Algorithm {
                     }
                 }
             }
+            
+            //Set frontier size
             if (frontier.size() > maxFrontierSize) {
                 maxFrontierSize = frontier.size();
             }
-
+            
             printMaze(current, frontier);
 
-            // check depth
+            // Search max depth
             int depth;
             Node temp = current;
             depth = 0;
@@ -79,7 +102,7 @@ public class UniformCost extends Algorithm {
                 maxDepth = depth;
             }
         } while (!frontier.isEmpty());
-
+        
         int pathCost = solution.size() - 1;
         printSolution(solution);
         printMaze(endNode, frontier);
@@ -88,12 +111,11 @@ public class UniformCost extends Algorithm {
         System.out.println("Nodes Expanded: " + closed.size());
         System.out.println("Max Depth: " + maxDepth);
         System.out.println("Max Frontier Size: " + maxFrontierSize);
-
     }
 
     @Override
     public double heuristic(Node node) {
-        return 0;
+        return cost2(node);
     }
 
     @Override
@@ -101,7 +123,7 @@ public class UniformCost extends Algorithm {
         double cost = -1;
         cost += heuristic(n);
         while (n != null) {
-            cost += cost2(n);
+            cost ++;
             n = n.parent;
         }
         return cost;
