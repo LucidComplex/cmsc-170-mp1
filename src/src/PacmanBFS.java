@@ -12,14 +12,13 @@ import java.util.Stack;
 
 /**
  *
- * @author MiriamMarie
+ * @author Lesterrific17
  */
-public class DFSPacman extends Algorithm{
-
+public class PacmanBFS extends Algorithm{
     
     private int nodesExpanded, pc;
     
-    public DFSPacman(char[][] maze, String mazeName) {
+    public PacmanBFS(char[][] maze, String mazeName) {
         this.init(maze, mazeName);
         iter = 0;
         maxDepth = 0;
@@ -30,10 +29,10 @@ public class DFSPacman extends Algorithm{
     public double heuristic(Node node) {
         return 0;
     }
-    
+
     @Override
     public void solve() {
-        Stack<Node> frontier = new Stack<>();
+        Queue<Node> frontier = new LinkedList<>();
         List<Node> closed = new LinkedList<>();
         Stack<Node> solution = new Stack<>();
         frontier.add(startNode);
@@ -42,7 +41,7 @@ public class DFSPacman extends Algorithm{
         
         do {
             // get current node from queue
-            current = frontier.pop();
+            current = frontier.remove();
             closed.add(current);
             
             nodesExpanded++;
@@ -109,6 +108,7 @@ public class DFSPacman extends Algorithm{
         System.out.println("Nodes Expanded: " + nodesExpanded);
         System.out.println("Max Depth: " + maxDepth);
         System.out.println("Max Frontier Size: " + maxFrontierSize);
+
     }
-    
+
 }

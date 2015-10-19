@@ -16,7 +16,7 @@ public class Main {
         MazeReader mr = new MazeReader();
         String mazeName = "tinySearch";
         char[][] maze = mr.read(mazeName);
-        Algorithm algo = new DFSPacman(maze, mazeName);
+        Algorithm algo = new PacmanDFS(maze, mazeName);
         algo.solve();
     }
 }
