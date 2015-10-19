@@ -26,6 +26,7 @@ public abstract class Algorithm {
     protected Node endNode;
     protected char[][] maze;
     protected String mazeName;
+    protected Stack<Node> ends = new Stack<>();
     
     protected int iter;
     protected int maxFrontierSize;
@@ -52,6 +53,14 @@ public abstract class Algorithm {
                 break;
             }
         }
+        for (int x = 0; x < maze.length; x++) {
+            for (int y = 0; y < maze[x].length; y++) {
+               if(maze[x][y]=='.'){
+                   ends.add(new Node(x, y, '.'));
+               }
+            }
+        }
+        System.out.println("Stack: " + ends.size());
         //Initializes the GUI Maze by parsing the 2D Char array
         if(mazeName.matches("tinyMaze")){
             mui = new TinyMazeUI();
@@ -95,6 +104,9 @@ public abstract class Algorithm {
     protected void printMaze(Node current, Collection<Node> frontier) {
         // print maze on tinyMaze
             // set current node to C in map
+//        if (!mazeName.matches("tinyMaze")){
+//            return;
+//        }
             maze[current.x][current.y] = 'C';
             System.out.println("Iteration #" + ++iter);
             System.out.println("Current Node: " + current);
